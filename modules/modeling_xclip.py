@@ -319,18 +319,20 @@ class XCLIP(CLIP4ClipPreTrainedModel):
         # video-sentence score 
         video_sentence_logits = logit_scale * torch.matmul(torch.matmul(sentence_output, self.global_mat_weight), video_output.t())
 
-        # video-word score
-        video_word_logits = logit_scale * torch.sum(torch.matmul(word_features, video_output.t()) \
-            * torch.matmul(torch.softmax(torch.matmul(word_features, video_output.t()) / 1e-2, dim=1).permute(0,2,1), self.word_logit_weight).permute(0,2,1), dim=1)
+        # # video-word score
+        # video_word_logits = logit_scale * torch.sum(torch.matmul(word_features, video_output.t()) \
+        #     * torch.matmul(torch.softmax(torch.matmul(word_features, video_output.t()) / 1e-2, dim=1).permute(0,2,1), self.word_logit_weight).permute(0,2,1), dim=1)
 
-        # sentence-frame score 
-        sentence_frame_logits = logit_scale * torch.sum(torch.matmul(sentence_output, frame_features.permute(0, 2, 1)) \
-            * torch.matmul(torch.softmax(torch.matmul(sentence_output, frame_features.permute(0, 2, 1)) / 1e-2, dim=-1), self.frame_logit_weight), dim=-1).t()
+        # # sentence-frame score 
+        # sentence_frame_logits = logit_scale * torch.sum(torch.matmul(sentence_output, frame_features.permute(0, 2, 1)) \
+        #     * torch.matmul(torch.softmax(torch.matmul(sentence_output, frame_features.permute(0, 2, 1)) / 1e-2, dim=-1), self.frame_logit_weight), dim=-1).t()
 
-        # frame-word score
-        frame_word_logits = logit_scale * self._attenion_over_fine_grained_sim_matrix(word_features, frame_features)
+        # # frame-word score
+        # frame_word_logits = logit_scale * self._attenion_over_fine_grained_sim_matrix(word_features, frame_features)
 
-        logits = (video_sentence_logits + video_word_logits + sentence_frame_logits + frame_word_logits) / 4
+        # logits = (video_sentence_logits + video_word_logits + sentence_frame_logits + frame_word_logits) / 4
+
+        logits = video_sentence_logits
 
         return logits
 
