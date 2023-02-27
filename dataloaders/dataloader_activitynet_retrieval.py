@@ -90,7 +90,7 @@ class ActivityNet_DataLoader(Dataset):
         return len(self.iter2video_pairs_dict)
 
     def _get_video_id_from_pseduo(self, pseudo_video_id):
-        video_id = pseudo_video_id[2:]
+        video_id = pseudo_video_id
         return video_id
 
     def _get_video_id_single(self, path):
